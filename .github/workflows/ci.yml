@@ -15,11 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Build Docker image
-        run: docker buildx build --file Dockerfile --tag devops-front:latest --tag devops-front:${{ github.ref }} .
+        run: docker build -t devops-front:${{ github.ref }} .
     
       - name: Log into Amazon ECR
         id: login-ecr
