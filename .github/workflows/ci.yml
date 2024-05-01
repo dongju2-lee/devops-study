@@ -2,11 +2,12 @@ name: 'service cicd'
 
 on:
   push:
-    tags:
-      - v**
+    branches:
+      - main
 
 env:
-  GITHUB_REPOSITORY: 'devops/front'
+  GITHUB_REPOSITORY: devops/front
+  AWS_REGION: ap-northeast-2
 
 jobs:
   build:
@@ -18,13 +19,20 @@ jobs:
       - name: Build Docker image
         run: docker build -t devops-front:${{ github.ref_name }} .
     
-      - name: Log into Amazon ECR
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}         
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Tag Docker image
-        run: docker tag devops-front:${{ github.ref_name }} ${{ steps.login-ecr.outputs.registry }}/$GITHUB_REPOSITORY:${{ github.ref_name }}
+        run: docker tag devops-front:${{ github.ref_name }} ${{ steps.login-ecr.outputs.registry }}/${{ env.GITHUB_REPOSITORY}}:${{ github.ref_name }}
 
       - name: Push Docker image to Amazon ECR
-        run: docker push ${{ steps.login-ecr.outputs.registry }}/$GITHUB_REPOSITORY:${{ github.ref_name }}
+        run: docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.GITHUB_REPOSITORY}}:${{ github.ref_name }}
 
