@@ -16,7 +16,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 const WeeklyOverview = () => {
   // ** Hook
-  const theme = useTheme()
+    const theme = useTheme()
 
   const options = {
     chart: {
