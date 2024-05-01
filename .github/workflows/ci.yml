@@ -3,11 +3,11 @@ name: 'service cicd'
 on:
   push:
     tags:
-      - v.**
+      - v**
 
 env:
   GITHUB_REPOSITORY: 'devops/front'
-  
+
 jobs:
   build:
     runs-on: dj-self
