@@ -38,6 +38,6 @@ jobs:
 
       - name: Build kustomize
         run: |
-          cd manifest/overlays/stg
+          cd manifests/overlays/stg
           kustomize edit set image IMAGE_NAME=${{ steps.login-ecr.outputs.registry }}/${{ env.GITHUB_REPOSITORY}}:${{ github.ref_name }}
           kustomize build .
