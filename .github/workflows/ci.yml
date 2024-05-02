@@ -2,8 +2,8 @@ name: 'service cicd'
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - v**
 
 env:
   GITHUB_REPOSITORY: devops/front
