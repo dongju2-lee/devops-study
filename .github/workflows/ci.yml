@@ -8,6 +8,7 @@ on:
 env:
   GITHUB_REPOSITORY: devops/front
   AWS_REGION: ap-northeast-2
+  DEPLOY_ENV: stg
 
 jobs:
   build:
@@ -40,4 +41,15 @@ jobs:
         run: |
           cd manifests/overlays/stg
           kustomize edit set image IMAGE_NAME=${{ steps.login-ecr.outputs.registry }}/${{ env.GITHUB_REPOSITORY}}:${{ github.ref_name }}
-          kustomize build .
+          kustomize build . > deploys/${{ env.DEPLOY_ENV}}-${{ github.ref_name }}.yaml
+      
+      - name: Set config
+        run: |
+          git config --local user.email "fjrzl2017@naver.com"
+          git config --local user.name "dongdongjuhahaha"
+      
+      - name: Push changes to main branch # merge 내용들을 main 브랜치로 최종 push
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.ACTION_TOKEN }}
