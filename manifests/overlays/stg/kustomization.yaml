@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namespace: stg
+
+patches:
+- path: set_deployment_spec.yaml
+- path: set_port.yaml
+images:
+- name: IMAGE_NAME
+  newName: asetsaet
+  newTag: "1241222"
