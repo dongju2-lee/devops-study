@@ -11,5 +11,5 @@ patches:
 - path: set_port.yaml
 images:
 - name: IMAGE_NAME
-  newName: asetsaet
-  newTag: "1241222"
+  newName: 819145822531.dkr.ecr.ap-northeast-2.amazonaws.com/devops/front
+  newTag: v20240502-2006
